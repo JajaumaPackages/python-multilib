@@ -1,6 +1,6 @@
 Name:       python-multilib
 Version:    1.1
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    A module for determining if a package is multilib or not
 Group:      Development/Libraries
 License:    GPLv2
@@ -81,6 +81,9 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-6
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Wed Jun 29 2016 Jay Greguske <jgregusk@redhat.com> - 1.1-5
 - Package up for Fedora rawhide
 
