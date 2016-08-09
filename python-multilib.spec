@@ -1,6 +1,6 @@
 Name:       python-multilib
 Version:    1.1
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    A module for determining if a package is multilib or not
 License:    GPLv2
 URL:        https://github.com/Zyzyx/%{name}
@@ -9,6 +9,8 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 Summary:        Python library for determining if a package is multilib enabled
+
+Provides:  python2-multilib = %{version}-%{release}
 
 %description
 A Python module that supports several multilib "methods" useful for determining \
@@ -34,6 +36,9 @@ if a 32-bit package should be included with its 64-bit analogue in a compose.
 %config(noreplace) %{_sysconfdir}/multilib.conf
 
 %changelog
+* Tue Aug 09 2016 Dennis Gilmore <dennis@ausil.us> - 1.1-5
+- add provides python2-multilib
+
 * Mon May 10 2016 Jay Greguske <jgregusk@redhat.com> - 1.1-4
 - EPEL 7 related changes to packaging
 
