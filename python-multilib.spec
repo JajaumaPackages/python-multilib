@@ -1,13 +1,13 @@
 Name:       python-multilib
-Version:    1.1
-Release:    8%{?dist}
+Version:    1.2
+Release:    1%{?dist}
 Summary:    A module for determining if a package is multilib or not
 Group:      Development/Libraries
 License:    GPLv2
-URL:        https://github.com/Zyzyx/%{name}/
-Source0:    https://github.com/Zyzyx/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+URL:        https://pagure.io/releng/python-multilib
+Source0:    https://releases.pagure.org/releng/python-multilib/%{name}-%{version}.tar.bz2
+
 BuildArch:  noarch
-Patch01:     001-python-six.patch
 
 
 %global _description \
@@ -50,7 +50,6 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 %prep
 %setup -q
-%patch01 -p1
 
 %build
 %py2_build
@@ -81,6 +80,10 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 
 %changelog
+* Thu Mar 02 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2-1
+- New upstream version with support for DNF package objects
+- Updated URL to point to new upstream on Pagure.io
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
