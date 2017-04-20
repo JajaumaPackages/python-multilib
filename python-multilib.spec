@@ -1,6 +1,6 @@
 Name:       python-multilib
 Version:    1.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    A module for determining if a package is multilib or not
 Group:      Development/Libraries
 License:    GPLv2
@@ -27,25 +27,31 @@ This package provides the configuration files for %{name}.
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-multilib}
 BuildRequires:  python2-devel
+%if 0%{?fedora}
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-six
 Requires:       python2-six
+%else
+BuildRequires:  python-setuptools
+BuildRequires:  python-six
+Requires:       python-six
+%endif
 Requires:       python2
 Requires:       %{name}-conf = %{version}-%{release}
 
 %description -n python2-multilib %{_description}
 
-%package -n python3-multilib
+%package -n python%{python3_pkgversion}-multilib
 Summary:        %{summary}
-%{?python_provide:%python_provide python3-multilib}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-six
-Requires:       python3-six
-Requires:       python3
+%{?python_provide:%python_provide python%{python3_pkgversion}-multilib}
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python%{python3_pkgversion}-six
+Requires:       python%{python3_pkgversion}-six
+Requires:       python%{python3_pkgversion}
 Requires:       %{name}-conf = %{version}-%{release}
 
-%description -n python3-multilib %{_description}
+%description -n python%{python3_pkgversion}-multilib %{_description}
 
 
 %prep
@@ -73,13 +79,16 @@ Requires:       %{name}-conf = %{version}-%{release}
 %doc README.md
 %{python2_sitelib}/*
 
-%files -n python3-multilib
+%files -n python%{python3_pkgversion}-multilib
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/*
 
 
 %changelog
+* Thu Apr 20 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2-2
+- Update requires for epel builds
+
 * Thu Mar 02 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2-1
 - New upstream version with support for DNF package objects
 - Updated URL to point to new upstream on Pagure.io
