@@ -1,46 +1,104 @@
 Name:       python-multilib
-Version:    1.1
-Release:    5%{?dist}
+Version:    1.2
+Release:    1%{?dist}
 Summary:    A module for determining if a package is multilib or not
+Group:      Development/Libraries
 License:    GPLv2
-URL:        https://github.com/Zyzyx/%{name}
-Source0:    https://github.com/Zyzyx/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-BuildArch:      noarch
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
-Summary:        Python library for determining if a package is multilib enabled
+URL:        https://pagure.io/releng/python-multilib
+Source0:    https://releases.pagure.org/releng/python-multilib/%{name}-%{version}.tar.bz2
 
-Provides:  python2-multilib = %{version}-%{release}
+BuildArch:  noarch
 
-%description
-A Python module that supports several multilib "methods" useful for determining \
-if a 32-bit package should be included with its 64-bit analogue in a compose.
+
+%global _description \
+A Python module that supports several multilib "methods" useful for \
+determining if a 32-bit package should be included with its 64-bit analogue \
+in a compose.
+
+%description %{_description}
+
+%package conf
+Summary:        Configuration files for %{name}
+
+%description conf
+This package provides the configuration files for %{name}.
+
+%package -n python2-multilib
+Summary:        %{summary}
+%{?python_provide:%python_provide python2-multilib}
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-six
+Requires:       python2-six
+Requires:       python2
+Requires:       %{name}-conf = %{version}-%{release}
+
+%description -n python2-multilib %{_description}
+
+%package -n python3-multilib
+Summary:        %{summary}
+%{?python_provide:%python_provide python3-multilib}
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-six
+Requires:       python3-six
+Requires:       python3
+Requires:       %{name}-conf = %{version}-%{release}
+
+%description -n python3-multilib %{_description}
+
 
 %prep
 %setup -q
 
 %build
-%{__python} setup.py build
+%py2_build
+%py3_build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%py2_install
+%py3_install
 
 %check
 # testing requires complete composes available locally, which no buildsystem
 # would ever want included in a build root
+#{__python2} setup.py test
+#{__python3} setup.py test
 
-%files
-%license LICENSE
-%doc README.md
-%{python_sitelib}/*
+%files conf
 %config(noreplace) %{_sysconfdir}/multilib.conf
 
-%changelog
-* Tue Aug 09 2016 Dennis Gilmore <dennis@ausil.us> - 1.1-5
-- add provides python2-multilib
+%files -n python2-multilib
+%license LICENSE
+%doc README.md
+%{python2_sitelib}/*
 
-* Mon May 10 2016 Jay Greguske <jgregusk@redhat.com> - 1.1-4
-- EPEL 7 related changes to packaging
+%files -n python3-multilib
+%license LICENSE
+%doc README.md
+%{python3_sitelib}/*
+
+
+%changelog
+* Thu Mar 02 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2-1
+- New upstream version with support for DNF package objects
+- Updated URL to point to new upstream on Pagure.io
+
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 1.1-7
+- Rebuild for Python 3.6
+
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.1-6
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
+* Wed Jun 29 2016 Jay Greguske <jgregusk@redhat.com> - 1.1-5
+- Package up for Fedora rawhide
+
+* Sun May 01 2016 Neal Gompa <ngompa13@gmail.com> - 1.1-3
+- Port to Python 3 and enable its subpackage
+- Split config file to its own subpackage
 
 * Thu Apr 07 2016 Dennis Gilmore <dennis@ausil.us> - 1.1-2
 - setup to make python3 down the road.
