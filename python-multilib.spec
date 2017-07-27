@@ -1,6 +1,6 @@
 Name:       python-multilib
 Version:    1.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    A module for determining if a package is multilib or not
 Group:      Development/Libraries
 License:    GPLv2
@@ -86,6 +86,9 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Thu Apr 20 2017 Lubomír Sedlář <lsedlar@redhat.com> - 1.2-2
 - Update requires for epel builds
 
