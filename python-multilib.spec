@@ -1,6 +1,6 @@
 Name:       python-multilib
 Version:    1.2
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    A module for determining if a package is multilib or not
 Group:      Development/Libraries
 License:    GPLv2
@@ -41,6 +41,7 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 %description -n python2-multilib %{_description}
 
+%if 0%{?fedora}
 %package -n python%{python3_pkgversion}-multilib
 Summary:        %{summary}
 %{?python_provide:%python_provide python%{python3_pkgversion}-multilib}
@@ -52,6 +53,7 @@ Requires:       python%{python3_pkgversion}
 Requires:       %{name}-conf = %{version}-%{release}
 
 %description -n python%{python3_pkgversion}-multilib %{_description}
+%endif
 
 
 %prep
@@ -59,11 +61,11 @@ Requires:       %{name}-conf = %{version}-%{release}
 
 %build
 %py2_build
-%py3_build
+%{?fedora:%py3_build}
 
 %install
 %py2_install
-%py3_install
+%{?fedora:%py3_install}
 
 %check
 # testing requires complete composes available locally, which no buildsystem
@@ -79,13 +81,17 @@ Requires:       %{name}-conf = %{version}-%{release}
 %doc README.md
 %{python2_sitelib}/*
 
+%if 0%{?fedora}
 %files -n python%{python3_pkgversion}-multilib
 %license LICENSE
 %doc README.md
 %{python3_sitelib}/*
-
+%endif
 
 %changelog
+* Fri Oct 13 2017 Jajauma's Packages <jajauma@yandex.ru> - 1.2-4
+- Skip python3 on RHEL
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
